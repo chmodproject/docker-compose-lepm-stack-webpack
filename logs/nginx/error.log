@@ -1,0 +1,1 @@
+2016/08/13 08:52:18 [error] 7#7: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.99.1, server: , request: "GET / HTTP/1.1", upstream: "fastcgi://172.20.0.3:9000", host: "192.168.99.100"

@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+
+    workspace:
+        build:
+            context: ./workspace
+        volumes_from:
+            - volumes_source
+        tty: true
+
+    php-fpm:
+        image: bitnami/php-fpm
+        volumes_from:
+            - volumes_source
+        expose:
+            - "9000"
+        links:
+            - workspace
+
+    nginx:
+        build:
+            context: ./nginx
+            args:
+                - PHP_UPSTREAM=php-fpm
+        volumes_from:
+            - volumes_source
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - php-fpm
+
+    mariadb:
+        build: ./mariadb
+        volumes_from:
+            - volumes_data
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: abenyu
+            MYSQL_USER: abenyu
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+        links:
+            - workspace
+
+    volumes_source:
+        build: ./volumes/application
+        volumes:
+            - ./abenyu:/var/www/abenyu
+
+    volumes_data:
+        build: ./volumes/data
+        volumes:
+            - ./data/mariadb:/var/lib/mariadb
+            - ./data/memcached:/var/lib/memcached
+
+    memcached:
+        build: ./memcached
+        volumes_from:
+            - volumes_data
+        ports:
+            - "11211:11211"
+        links:
+            - php-fpm

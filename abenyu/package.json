@@ -1,0 +1,16 @@
+{
+  "name": "laravel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://blue10210@bitbucket.org/blue10210/framework-beta.git"
+  },
+  "author": "mark bame martires",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/blue10210/framework-beta#readme"
+}
